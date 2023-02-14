@@ -16,4 +16,10 @@ deactivate
 pip install -r requirements.txt
 ```
 
+## Start server
+
+```
+python server.py
+```
+
 ## Contributors
