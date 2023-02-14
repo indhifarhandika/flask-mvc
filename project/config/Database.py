@@ -1,5 +1,7 @@
-import mysql.connector
+import mysql.connector.connection
 
-connection = mysql.connector(host="localhost", user="root", password="root")
+connection = mysql.connector.connection.MySQLConnection(
+    host="localhost", user="root", password="root"
+)
 
 cursor = connection.cursor()
