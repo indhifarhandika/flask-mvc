@@ -1,6 +1,14 @@
 # Genealogy
 
-## Python 3.10.8 with Flask and MVC design pattern
+## Prerequisite
+
+```
+python 3.10.8
+docker 20.10.17
+docker-compose 1.29.2
+```
+
+## Python Flask framework with MVC design pattern
 
 ## Using virtual environment
 
