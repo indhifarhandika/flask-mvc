@@ -1,4 +1,5 @@
 import mysql.connector, json
+
 """
     Import local package
 
@@ -9,7 +10,8 @@ from project.config.Hash import Hash
 """
     Your Code
 """
-class Hello:
 
+
+class Hello:
     def __init__(self):
         pass
