@@ -16,6 +16,12 @@ deactivate
 pip install -r requirements.txt
 ```
 
+## Start database
+
+```
+docker-compose -f docker/mysql.yml up -d
+```
+
 ## Start server
 
 ```
