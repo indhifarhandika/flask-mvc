@@ -10,6 +10,11 @@ docker-compose 1.29.2
 
 ## Python Flask framework with MVC design pattern
 
+```
+Flask
+Flask-SQLAlchemy ORM
+```
+
 ## Using virtual environment
 
 ```
