@@ -5,7 +5,9 @@ CREATE TABLE IF NOT EXISTS family (
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name nvarchar(255) NOT NULL,
     chief_person_id int NOT NULL,
-    join_family_id int
+    join_family_id int,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS person (
@@ -15,13 +17,17 @@ CREATE TABLE IF NOT EXISTS person (
     family_id int,
     gender int,
     join_person_id int,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (family_id) REFERENCES family(id),
     FOREIGN KEY (join_person_id) REFERENCES person(id)
 );
 
 CREATE TABLE IF NOT EXISTS relationship_type (
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    name nvarchar(255) NOT NULL
+    name nvarchar(255) NOT NULL,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS relationship (
@@ -29,6 +35,8 @@ CREATE TABLE IF NOT EXISTS relationship (
     person_1_id int,
     person_2_id int,
     type int,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (person_1_id) REFERENCES person(id),
     FOREIGN KEY (person_2_id) REFERENCES person(id),
     FOREIGN KEY (type) REFERENCES relationship_type(id)

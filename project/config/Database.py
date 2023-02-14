@@ -1,7 +1,4 @@
-import mysql.connector.connection
+from flask_sqlalchemy import SQLAlchemy
+from project import app
 
-connection = mysql.connector.connection.MySQLConnection(
-    host="localhost", user="root", password="root"
-)
-
-cursor = connection.cursor()
+db = SQLAlchemy(app)
