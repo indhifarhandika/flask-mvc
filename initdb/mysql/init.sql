@@ -13,7 +13,6 @@ CREATE TABLE IF NOT EXISTS family (
 CREATE TABLE IF NOT EXISTS person (
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name nvarchar(255) NOT NULL,
-    dob date NOT NULL,
     family_id int,
     gender int,
     join_person_id int,
@@ -41,3 +40,11 @@ CREATE TABLE IF NOT EXISTS relationship (
     FOREIGN KEY (person_2_id) REFERENCES person(id),
     FOREIGN KEY (type) REFERENCES relationship_type(id)
 );
+
+INSERT INTO person(name) VALUES ('Phạm Hữu Thiên');
+INSERT INTO person(name) VALUES ('Trần Cung Bắc');
+INSERT INTO person(name) VALUES ('Trực Sang Huê');
+
+INSERT INTO family (name, chief_person_id) VALUES ('Phạm', 1);
+INSERT INTO family (name, chief_person_id) VALUES ('Trần', 2);
+INSERT INTO family (name, chief_person_id) VALUES ('Trực', 3);
