@@ -17,7 +17,7 @@ def get_families():
     per_page = request.args.get("per_page", 10, type=int)
     pagination = Family.query.order_by(Family.id).paginate(page=page, per_page=per_page)
     print(pagination.items)
-    return render_template("Family/list.html.j2", data=pagination)
+    return render_template("family/list.html.j2", data=pagination)
 
 
 # Not TEST
@@ -32,14 +32,14 @@ def add_family():
     per_page = request.args.get("per_page", 10, type=int)
     pagination = Family.query.order_by(Family.id).paginate(page=page, per_page=per_page)
     print(pagination.items)
-    return render_template("Family/list.html.j2", data=pagination)
+    return render_template("family/list.html.j2", data=pagination)
 
 
 @app.route("/family/<id>", methods=["GET"])
 def get_family(id):
     family = Family.query.get(id)
     print(family)
-    return render_template("Family/view.html.j2", data=family)
+    return render_template("family/view.html.j2", data=family)
 
 
 # Not TEST
@@ -50,7 +50,7 @@ def edit_family(id):
     family.chief_person_id = request.form["chief_person_id"]
     db.session.commit()
     print(family)
-    return render_template("Family/edit.html.j2", data=family)
+    return render_template("family/edit.html.j2", data=family)
 
 
 # Not TEST
@@ -60,4 +60,4 @@ def remove_family(id):
     db.session.delete(family)
     db.session.commit()
     print(family)
-    return render_template("Family/list.html.j2", data=family)
+    return render_template("family/list.html.j2", data=family)
