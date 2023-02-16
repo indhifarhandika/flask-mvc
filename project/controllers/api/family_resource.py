@@ -4,7 +4,7 @@ from flask_restx import reqparse, marshal
 
 
 from project.controllers.api.base_resource import BaseResource
-from project.models.family import db, Family, family_model
+from project.models.familys import db, Family, family_model
 
 
 @api.route("/api/family")

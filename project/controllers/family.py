@@ -8,7 +8,7 @@ from flask import render_template, redirect, url_for, request
 """
     Import MOdels
 """
-from project.models.family import Family, db
+from project.models.familys import Family, db
 
 
 @app.route("/family", methods=["GET"])
