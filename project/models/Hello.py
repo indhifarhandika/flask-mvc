@@ -3,9 +3,9 @@ import json
 """
     Import local package
 """
-from project.config.Database import db
-from project.config.DatetimeEncoder import DatetimeEncoder
-from project.config.Hash import Hash
+from project.config.database import db
+from project.config.datetime_encoder import DatetimeEncoder
+from project.config.hash import Hash
 
 
 class Hello:

@@ -8,7 +8,7 @@ from flask import render_template, redirect, url_for
 """
     Import MOdels
 """
-from project.models.Hello import Hello
+from project.models.hello import Hello
 
 
 # route index

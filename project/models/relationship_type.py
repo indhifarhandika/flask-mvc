@@ -10,11 +10,9 @@ from project.config.datetime_encoder import DatetimeEncoder
 from project.config.hash import Hash
 
 
-class Family(db.Model):
+class RelationshipType(db.Model):
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
-    chief_person_id = db.Column(db.Integer, nullable=False)
-    join_family_id = db.Column(db.Integer, nullable=True)
     created_at = db.Column(
         db.DateTime(timezone=True),
         nullable=False,
@@ -31,12 +29,10 @@ class Family(db.Model):
         return f"<Family {self.name}>"
 
 
-family_model = api.model(
-    "Family",
+relationship_type_model = api.model(
+    "RelationshipType",
     {
         "id": fields.Integer,
         "name": fields.String,
-        "chief_person_id": fields.Integer,
-        "join_family_id": fields.Integer,
     },
 )
