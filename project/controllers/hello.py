@@ -12,7 +12,7 @@ from project.models.Hello import Hello
 
 
 # route index
-@app.route("/", methods=["GET"])
-def index():
+@app.route("/hello", methods=["GET"])
+def hello():
     data = Hello().first_greeting()
     return render_template("index.html.j2", data=data)

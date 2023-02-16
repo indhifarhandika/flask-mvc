@@ -1,10 +1,10 @@
 import json
 
 from sqlalchemy import func
+from flask_restx import fields
 
-"""
-    Import local package
-"""
+
+from project import api
 from project.config.Database import db
 from project.config.DatetimeEncoder import DatetimeEncoder
 from project.config.Hash import Hash
@@ -29,3 +29,14 @@ class Family(db.Model):
 
     def __repr__(self):
         return f"<Family {self.name}>"
+
+
+family_model = api.model(
+    "Family",
+    {
+        "id": fields.Integer,
+        "name": fields.String,
+        "chief_person_id": fields.Integer,
+        "join_family_id": fields.Integer,
+    },
+)
