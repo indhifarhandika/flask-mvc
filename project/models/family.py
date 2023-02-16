@@ -5,9 +5,9 @@ from flask_restx import fields
 
 
 from project import api
-from project.config.databases import db
+from project.config.database import db
 from project.config.datetime_encoder import DatetimeEncoder
-from project.config.hashs import Hash
+from project.config.hash import Hash
 
 
 class Family(db.Model):  # type: ignore
