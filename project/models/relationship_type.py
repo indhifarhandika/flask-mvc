@@ -10,7 +10,7 @@ from project.config.datetime_encoder import DatetimeEncoder
 from project.config.hash import Hash
 
 
-class RelationshipType(db.Model):
+class RelationshipType(db.Model):  # type: ignore
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     created_at = db.Column(

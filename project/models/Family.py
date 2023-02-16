@@ -10,7 +10,7 @@ from project.config.datetime_encoder import DatetimeEncoder
 from project.config.hash import Hash
 
 
-class Family(db.Model):
+class Family(db.Model):  # type: ignore
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     chief_person_id = db.Column(db.Integer, nullable=False)
