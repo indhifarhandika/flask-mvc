@@ -11,5 +11,4 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 api = Api(app)
 
-from project.controllers import *
 from project.controllers.api import *
