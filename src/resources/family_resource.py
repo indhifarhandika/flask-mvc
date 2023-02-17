@@ -23,7 +23,7 @@ class FamilyResource(BaseResource):
 
             id = args["id"]
             api.logger.info(f"get_family id={id}")
-            family = Family.query.get(id)
+            family = Family.query.filter(Family.id == id).first()
             if not family:
                 return self.not_found(None)
 
@@ -66,7 +66,7 @@ class FamilyResource(BaseResource):
 
         id = api.payload.get("id")
         api.logger.info(f"edit_family id={id}")
-        family = Family.query.get(id)
+        family = Family.query.filter(Family.id == id).first()
         if not family:
             return self.not_found(None)
 
@@ -91,10 +91,10 @@ class FamilyResource(BaseResource):
             return self.bad_request(None)
 
         api.logger.info(f"delete_family id={id}")
-        family = Family.query.get(id)
+        family = Family.query.filter(Family.id == id).first()
         if not family:
             return self.not_found(None)
 
         Family.session.delete(family)
         Family.session.commit()
-        return self.succeed(marshal(family, family_model))
+        return self.succeed(None)

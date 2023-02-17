@@ -24,7 +24,7 @@ class FamilyChiefResource(BaseResource):
 
         id = api.payload.get("id")
         api.logger.info(f"change_chief_of_family id={id}")
-        family = Family.query.get(id)
+        family = Family.query.filter(Family.id == id).first()
         if not family:
             return self.not_found(None)
 

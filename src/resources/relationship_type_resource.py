@@ -25,7 +25,9 @@ class RelationshipTypeResource(BaseResource):
 
             id = args["id"]
             api.logger.info(f"get_relationship_type id={id}")
-            relationship_type = RelationshipType.query.get(id)
+            relationship_type = RelationshipType.query.filter(
+                RelationshipType.id == id
+            ).first()
             if not relationship_type:
                 return self.not_found(None)
 
@@ -77,7 +79,9 @@ class RelationshipTypeResource(BaseResource):
 
         id = api.payload.get("id")
         api.logger.info(f"edit_relationship_type id={id}")
-        relationship_type = RelationshipType.query.get(id)
+        relationship_type = RelationshipType.query.filter(
+            RelationshipType.id == id
+        ).first()
         if not relationship_type:
             return self.not_found(None)
 
@@ -99,10 +103,12 @@ class RelationshipTypeResource(BaseResource):
             return self.bad_request(None)
 
         api.logger.info(f"delete_relationship_type id={id}")
-        relationship_type = RelationshipType.query.get(id)
+        relationship_type = RelationshipType.query.filter(
+            RelationshipType.id == id
+        ).first()
         if not relationship_type:
             return self.not_found(None)
 
         RelationshipType.session.delete(relationship_type)
         RelationshipType.session.commit()
-        return self.succeed(marshal(relationship_type, relationship_type_model))
+        return self.succeed(None)

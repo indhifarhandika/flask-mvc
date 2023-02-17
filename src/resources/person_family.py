@@ -20,7 +20,7 @@ class PersonFamilyResource(BaseResource):
 
         id = api.payload.get("id")
         api.logger.info(f"change_family_for_person id={id}")
-        person = Person.query.get(id)
+        person = Person.query.filter(Person.id == id).first()
         if not person:
             return self.not_found(None)
 
@@ -36,7 +36,7 @@ class PersonFamilyResource(BaseResource):
             return self.bad_request(None)
 
         api.logger.info(f"remove_family_for_person id={id}")
-        person = Person.query.get(id)
+        person = Person.query.filter(Person.id == id).first()
         if not person:
             return self.not_found(None)
 

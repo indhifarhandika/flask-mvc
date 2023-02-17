@@ -14,7 +14,7 @@ class Family(Mixin, db.Model):  # type: ignore
     def __init__(self, name, chief_person_id):
         super().__init__()
         self.name = name
-        # self.chief_person_id = chief_person_id
+        self.chief_person_id = chief_person_id
 
     def __repr__(self):
         return f"<Family {self.name}>"

@@ -23,7 +23,7 @@ class PersonResource(BaseResource):
 
             id = args["id"]
             api.logger.info(f"get_person id={id}")
-            person = Person.query.get(id)
+            person = Person.query.filter(Person.id == id).first()
             if not person:
                 return self.bad_request(None)
 
@@ -71,7 +71,7 @@ class PersonResource(BaseResource):
 
         id = api.payload.get("id")
         api.logger.info(f"edit_person id={id}")
-        person = Person.query.get(id)
+        person = Person.query.filter(Person.id == id).first()
         if not person:
             return self.not_found(None)
 
@@ -100,10 +100,10 @@ class PersonResource(BaseResource):
             return self.bad_request(None)
 
         api.logger.info(f"delete_person id={id}")
-        person = Person.query.get(id)
+        person = Person.query.filter(Person.id == id).first()
         if not person:
             return self.not_found(None)
 
         Person.session.delete(person)
         Person.session.commit()
-        return self.succeed(marshal(person, person_model))
+        return self.succeed(None)
