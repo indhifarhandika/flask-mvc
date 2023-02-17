@@ -4,7 +4,7 @@ from flask_restx import reqparse, marshal
 
 
 from src.apis.base_resource import BaseResource
-from src.models.person import db, Person
+from src.models.person import Person
 
 
 @api.route("/api/person")
@@ -56,8 +56,8 @@ class PersonResource(BaseResource):
             family_id=family_id,
             gender=gender,
         )
-        db.session.add(person)
-        db.session.commit()
+        Person.session.add(person)
+        Person.session.commit()
         return self.succeed(marshal(person, Person.model))
 
     @api.expect(Person.model)
@@ -82,7 +82,7 @@ class PersonResource(BaseResource):
             person.gender = api.payload.get("gender")
         if "join_person_id" in api.payload:
             person.join_person_id = api.payload.get("join_person_id")
-        db.session.commit()
+        Person.session.commit()
         return self.succeed(marshal(person, Person.model))
 
     @api.param("id", "id of person to delete.")
@@ -103,6 +103,6 @@ class PersonResource(BaseResource):
         if not person:
             return self.not_found(None)
 
-        db.session.delete(person)
-        db.session.commit()
+        Person.session.delete(person)
+        Person.session.commit()
         return self.succeed(marshal(person, Person.model))

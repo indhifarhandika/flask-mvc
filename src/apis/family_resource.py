@@ -4,7 +4,7 @@ from flask_restx import reqparse, marshal
 
 
 from src.apis.base_resource import BaseResource
-from src.models.family import db, Family
+from src.models.family import Family
 
 
 @api.route("/api/family")
@@ -51,8 +51,8 @@ class FamilyResource(BaseResource):
         chief_person_id = api.payload.get("chief_person_id")
         api.logger.info(f"create_family")
         family = Family(name=name, chief_person_id=chief_person_id)
-        db.session.add(family)
-        db.session.commit()
+        Family.session.add(family)
+        Family.session.commit()
         return self.succeed(marshal(family, Family.model))
 
     @api.expect(Family.model)
@@ -73,7 +73,7 @@ class FamilyResource(BaseResource):
             family.name = api.payload.get("name")
         if "chief_person_id" in api.payload:
             family.chief_person_id = api.payload.get("chief_person_id")
-        db.session.commit()
+        Family.session.commit()
         return self.succeed(marshal(family, Family.model))
 
     @api.param("id", "id of family to delete.")
@@ -94,6 +94,6 @@ class FamilyResource(BaseResource):
         if not family:
             return self.not_found(None)
 
-        db.session.delete(family)
-        db.session.commit()
+        Family.session.delete(family)
+        Family.session.commit()
         return self.succeed(marshal(family, Family.model))

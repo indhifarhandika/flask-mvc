@@ -4,7 +4,7 @@ from flask_restx import reqparse, marshal
 
 
 from src.apis.base_resource import BaseResource
-from src.models.relationship_type import db, RelationshipType
+from src.models.relationship_type import RelationshipType
 
 
 @api.route("/api/relationship_type")
@@ -63,8 +63,8 @@ class RelationshipTypeResource(BaseResource):
         name = api.payload.get("name")
         api.logger.info(f"create_relationship_type")
         relationship_type = RelationshipType(name=name)
-        db.session.add(relationship_type)
-        db.session.commit()
+        RelationshipType.session.add(relationship_type)
+        RelationshipType.session.commit()
         return self.succeed(marshal(relationship_type, RelationshipType.model))
 
     @api.expect(RelationshipType.model)
@@ -83,7 +83,7 @@ class RelationshipTypeResource(BaseResource):
 
         if "name" in api.payload:
             relationship_type.name = api.payload.get("name")
-        db.session.commit()
+        RelationshipType.session.commit()
         return self.succeed(marshal(relationship_type, RelationshipType.model))
 
     @api.param("id", "id of relationship_type to delete.")
@@ -103,6 +103,6 @@ class RelationshipTypeResource(BaseResource):
         if not relationship_type:
             return self.not_found(None)
 
-        db.session.delete(relationship_type)
-        db.session.commit()
+        RelationshipType.session.delete(relationship_type)
+        RelationshipType.session.commit()
         return self.succeed(marshal(relationship_type, RelationshipType.model))

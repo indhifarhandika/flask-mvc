@@ -17,3 +17,5 @@ class Mixin(object):
         server_default=func.current_timestamp(),
         server_onupdate=func.current_timestamp(),
     )
+
+    session = db.session
