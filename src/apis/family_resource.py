@@ -5,6 +5,7 @@ from flask_restx import reqparse, marshal
 
 from src.apis.base_resource import BaseResource
 from src.models.family import Family
+from src.view_models.family import family_model
 
 
 @api.route("/api/family")
@@ -26,7 +27,7 @@ class FamilyResource(BaseResource):
             if not family:
                 return self.not_found(None)
 
-            return self.succeed(marshal(family, Family.model))
+            return self.succeed(marshal(family, family_model))
 
         parser = reqparse.RequestParser()
         parser.add_argument("limit", type=int, default=10)
@@ -38,9 +39,9 @@ class FamilyResource(BaseResource):
         api.logger.info(f"get_families offset={offset} limit={limit}")
         families = Family.query.order_by(Family.id).limit(limit).offset(offset).all()
         total = Family.query.count()
-        return self.succeed({"data": marshal(families, Family.model), "total": total})
+        return self.succeed({"data": marshal(families, family_model), "total": total})
 
-    @api.expect(Family.model)
+    @api.expect(family_model)
     @api.response(200, "Succeed")
     @api.response(400, "Bad Request")
     def post(self):
@@ -53,9 +54,9 @@ class FamilyResource(BaseResource):
         family = Family(name=name, chief_person_id=chief_person_id)
         Family.session.add(family)
         Family.session.commit()
-        return self.succeed(marshal(family, Family.model))
+        return self.succeed(marshal(family, family_model))
 
-    @api.expect(Family.model)
+    @api.expect(family_model)
     @api.response(200, "Succeed")
     @api.response(400, "Bad Request")
     @api.response(404, "Not found")
@@ -74,7 +75,7 @@ class FamilyResource(BaseResource):
         if "chief_person_id" in api.payload:
             family.chief_person_id = api.payload.get("chief_person_id")
         Family.session.commit()
-        return self.succeed(marshal(family, Family.model))
+        return self.succeed(marshal(family, family_model))
 
     @api.param("id", "id of family to delete.")
     @api.response(200, "Succeed")
@@ -96,4 +97,4 @@ class FamilyResource(BaseResource):
 
         Family.session.delete(family)
         Family.session.commit()
-        return self.succeed(marshal(family, Family.model))
+        return self.succeed(marshal(family, family_model))

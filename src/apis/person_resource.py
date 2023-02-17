@@ -5,6 +5,7 @@ from flask_restx import reqparse, marshal
 
 from src.apis.base_resource import BaseResource
 from src.models.person import Person
+from src.view_models.person import person_model
 
 
 @api.route("/api/person")
@@ -26,7 +27,7 @@ class PersonResource(BaseResource):
             if not person:
                 return self.bad_request(None)
 
-            return self.succeed(marshal(person, Person.model))
+            return self.succeed(marshal(person, person_model))
 
         parser = reqparse.RequestParser()
         parser.add_argument("limit", type=int, default=10)
@@ -38,9 +39,9 @@ class PersonResource(BaseResource):
         api.logger.info(f"get_persons offset={offset} limit={limit}")
         persons = Person.query.order_by(Person.id).limit(limit).offset(offset).all()
         total = Person.query.count()
-        return self.succeed({"data": marshal(persons, Person.model), "total": total})
+        return self.succeed({"data": marshal(persons, person_model), "total": total})
 
-    @api.expect(Person.model)
+    @api.expect(person_model)
     @api.response(200, "Succeed")
     @api.response(400, "Bad Request")
     def post(self):
@@ -58,9 +59,9 @@ class PersonResource(BaseResource):
         )
         Person.session.add(person)
         Person.session.commit()
-        return self.succeed(marshal(person, Person.model))
+        return self.succeed(marshal(person, person_model))
 
-    @api.expect(Person.model)
+    @api.expect(person_model)
     @api.response(200, "Succeed")
     @api.response(400, "Bad Request")
     @api.response(404, "Not found")
@@ -83,7 +84,7 @@ class PersonResource(BaseResource):
         if "join_person_id" in api.payload:
             person.join_person_id = api.payload.get("join_person_id")
         Person.session.commit()
-        return self.succeed(marshal(person, Person.model))
+        return self.succeed(marshal(person, person_model))
 
     @api.param("id", "id of person to delete.")
     @api.response(200, "Succeed")
@@ -105,4 +106,4 @@ class PersonResource(BaseResource):
 
         Person.session.delete(person)
         Person.session.commit()
-        return self.succeed(marshal(person, Person.model))
+        return self.succeed(marshal(person, person_model))

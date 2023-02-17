@@ -5,6 +5,7 @@ from flask_restx import reqparse, marshal
 
 from src.apis.base_resource import BaseResource
 from src.models.relationship_type import RelationshipType
+from src.view_models.relationship_type import relationship_type_model
 
 
 @api.route("/api/relationship_type")
@@ -29,7 +30,7 @@ class RelationshipTypeResource(BaseResource):
             if not relationship_type:
                 return self.not_found(None)
 
-            return self.succeed(marshal(relationship_type, RelationshipType.model))
+            return self.succeed(marshal(relationship_type, relationship_type_model))
 
         parser = reqparse.RequestParser()
         parser.add_argument("limit", type=int, default=10)
@@ -48,12 +49,12 @@ class RelationshipTypeResource(BaseResource):
         total = RelationshipType.query.count()
         return self.succeed(
             {
-                "data": marshal(relationship_types, RelationshipType.model),
+                "data": marshal(relationship_types, relationship_type_model),
                 "total": total,
             }
         )
 
-    @api.expect(RelationshipType.model)
+    @api.expect(relationship_type_model)
     @api.response(200, "Succeed")
     @api.response(400, "Bad Request")
     def post(self):
@@ -65,9 +66,9 @@ class RelationshipTypeResource(BaseResource):
         relationship_type = RelationshipType(name=name)
         RelationshipType.session.add(relationship_type)
         RelationshipType.session.commit()
-        return self.succeed(marshal(relationship_type, RelationshipType.model))
+        return self.succeed(marshal(relationship_type, relationship_type_model))
 
-    @api.expect(RelationshipType.model)
+    @api.expect(relationship_type_model)
     @api.response(200, "Succeed")
     @api.response(400, "Bad Request")
     @api.response(404, "Not found")
@@ -84,7 +85,7 @@ class RelationshipTypeResource(BaseResource):
         if "name" in api.payload:
             relationship_type.name = api.payload.get("name")
         RelationshipType.session.commit()
-        return self.succeed(marshal(relationship_type, RelationshipType.model))
+        return self.succeed(marshal(relationship_type, relationship_type_model))
 
     @api.param("id", "id of relationship_type to delete.")
     @api.response(200, "Succeed")
@@ -105,4 +106,4 @@ class RelationshipTypeResource(BaseResource):
 
         RelationshipType.session.delete(relationship_type)
         RelationshipType.session.commit()
-        return self.succeed(marshal(relationship_type, RelationshipType.model))
+        return self.succeed(marshal(relationship_type, relationship_type_model))
