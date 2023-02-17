@@ -1,6 +1,7 @@
 import logging
 from flask import Flask
 from flask_restx import Api
+from flask_sqlalchemy import SQLAlchemy
 
 logging.basicConfig(level=logging.INFO)
 
@@ -10,6 +11,6 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:root@localhost/gen
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 api = Api(app)
+db = SQLAlchemy(app)
 
-from project.controllers import *
-from project.controllers.api import *
+from src.apis import *

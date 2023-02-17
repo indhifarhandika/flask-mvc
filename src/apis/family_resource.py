@@ -1,10 +1,10 @@
-from project import api
+from src import api
 from flask import request
 from flask_restx import reqparse, marshal
 
 
-from project.controllers.api.base_resource import BaseResource
-from project.models.family import db, Family, family_model
+from src.apis.base_resource import BaseResource
+from src.models.family import db, Family
 
 
 @api.route("/api/family")
@@ -26,7 +26,7 @@ class FamilyResource(BaseResource):
             if not family:
                 return self.format_response(None, 404, "Not found")
 
-            return self.format_response(marshal(family, family_model), 200, "Succeed")
+            return self.format_response(marshal(family, Family.model), 200, "Succeed")
 
         parser = reqparse.RequestParser()
         parser.add_argument("limit", type=int, default=10)
@@ -39,10 +39,10 @@ class FamilyResource(BaseResource):
         families = Family.query.order_by(Family.id).limit(limit).offset(offset).all()
         total = Family.query.count()
         return self.format_response(
-            {"data": marshal(families, family_model), "total": total}, 200, "Succeed"
+            {"data": marshal(families, Family.model), "total": total}, 200, "Succeed"
         )
 
-    @api.expect(family_model)
+    @api.expect(Family.model)
     @api.response(200, "Succeed")
     def post(self):
         if not api.payload or "name" not in api.payload:
@@ -54,9 +54,9 @@ class FamilyResource(BaseResource):
         family = Family(name=name, chief_person_id=chief_person_id)
         db.session.add(family)
         db.session.commit()
-        return self.format_response(marshal(family, family_model), 200, "Succeed")
+        return self.format_response(marshal(family, Family.model), 200, "Succeed")
 
-    @api.expect(family_model)
+    @api.expect(Family.model)
     @api.response(200, "Succeed")
     @api.response(404, "Not found")
     def put(self):
@@ -74,7 +74,7 @@ class FamilyResource(BaseResource):
         if "chief_person_id" in api.payload:
             family.chief_person_id = api.payload.get("chief_person_id")
         db.session.commit()
-        return self.format_response(marshal(family, family_model), 200, "Succeed")
+        return self.format_response(marshal(family, Family.model), 200, "Succeed")
 
     @api.param("id", "id of family to delete.")
     @api.response(200, "Succeed")
@@ -95,4 +95,4 @@ class FamilyResource(BaseResource):
 
         db.session.delete(family)
         db.session.commit()
-        return self.format_response(marshal(family, family_model), 200, "Succeed")
+        return self.format_response(marshal(family, Family.model), 200, "Succeed")

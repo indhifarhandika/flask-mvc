@@ -12,7 +12,8 @@ docker-compose 1.29.2
 
 ```
 Flask
-Flask-SQLAlchemy ORM
+Flask-SQLAlchemy -- ORM
+Flask-restx -- Swagger
 ```
 
 ## Using virtual environment
@@ -29,10 +30,11 @@ deactivate
 pip install -r requirements.txt
 ```
 
-## Start database
+## Using database
 
 ```
 docker-compose -f docker/mysql.yml up -d
+docker-compose -f docker/mysql.yml down
 ```
 
 ## Start server
