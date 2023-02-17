@@ -11,6 +11,17 @@ class Person(Mixin, db.Model):  # type: ignore
     gender = db.Column(db.Integer, nullable=False)
     join_person_id = db.Column(db.Integer, nullable=True)
 
+    model = api.model(
+        "Person",
+        {
+            "id": fields.Integer,
+            "name": fields.String,
+            "family_id": fields.Integer,
+            "gender": fields.Integer,
+            "join_person_id": fields.Integer,
+        },
+    )
+
     def __init__(self, name, family_id, gender):
         super().__init__()
         self.name = name
@@ -19,15 +30,3 @@ class Person(Mixin, db.Model):  # type: ignore
 
     def __repr__(self):
         return f"<Person {self.name}>"
-
-
-person_model = api.model(
-    "Person",
-    {
-        "id": fields.Integer,
-        "name": fields.String,
-        "family_id": fields.Integer,
-        "gender": fields.Integer,
-        "join_person_id": fields.Integer,
-    },
-)

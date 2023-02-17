@@ -10,6 +10,16 @@ class Family(Mixin, db.Model):  # type: ignore
     chief_person_id = db.Column(db.Integer, nullable=False)
     join_family_id = db.Column(db.Integer, nullable=True)
 
+    model = api.model(
+        "Family",
+        {
+            "id": fields.Integer,
+            "name": fields.String,
+            "chief_person_id": fields.Integer,
+            "join_family_id": fields.Integer,
+        },
+    )
+
     def __init__(self, name, chief_person_id):
         super().__init__()
         self.name = name
@@ -17,14 +27,3 @@ class Family(Mixin, db.Model):  # type: ignore
 
     def __repr__(self):
         return f"<Family {self.name}>"
-
-
-family_model = api.model(
-    "Family",
-    {
-        "id": fields.Integer,
-        "name": fields.String,
-        "chief_person_id": fields.Integer,
-        "join_family_id": fields.Integer,
-    },
-)
