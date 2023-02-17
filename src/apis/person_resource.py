@@ -1,10 +1,10 @@
-from project import api
+from src import api
 from flask import request
 from flask_restx import reqparse, marshal
 
 
-from project.controllers.api.base_resource import BaseResource
-from project.models.person import db, Person, person_model
+from src.apis.base_resource import BaseResource
+from src.models.person import db, Person, person_model
 
 
 @api.route("/api/person")
@@ -51,13 +51,11 @@ class PersonResource(BaseResource):
         name = api.payload.get("name")
         family_id = api.payload.get("family_id")
         gender = api.payload.get("gender")
-        join_person_id = api.payload.get("join_person_id")
         api.logger.info(f"create_person")
         person = Person(
             name=name,
             family_id=family_id,
             gender=gender,
-            join_person_id=join_person_id,
         )
         db.session.add(person)
         db.session.commit()

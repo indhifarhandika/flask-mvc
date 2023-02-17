@@ -1,10 +1,10 @@
-from project import api
+from src import api
 from flask import request
 from flask_restx import reqparse, marshal
 
 
-from project.controllers.api.base_resource import BaseResource
-from project.models.family import db, Family, family_model
+from src.apis.base_resource import BaseResource
+from src.models.family import db, Family, family_model
 
 
 @api.route("/api/family")
