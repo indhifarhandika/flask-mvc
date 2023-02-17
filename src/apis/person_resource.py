@@ -24,9 +24,9 @@ class PersonResource(BaseResource):
             api.logger.info(f"get_person id={id}")
             person = Person.query.get(id)
             if not person:
-                return self.format_response(None, 404, "Not found")
+                return self.bad_request(None)
 
-            return self.format_response(marshal(person, Person.model), 200, "Succeed")
+            return self.succeed(marshal(person, Person.model))
 
         parser = reqparse.RequestParser()
         parser.add_argument("limit", type=int, default=10)
@@ -38,15 +38,14 @@ class PersonResource(BaseResource):
         api.logger.info(f"get_persons offset={offset} limit={limit}")
         persons = Person.query.order_by(Person.id).limit(limit).offset(offset).all()
         total = Person.query.count()
-        return self.format_response(
-            {"data": marshal(persons, Person.model), "total": total}, 200, "Succeed"
-        )
+        return self.succeed({"data": marshal(persons, Person.model), "total": total})
 
     @api.expect(Person.model)
     @api.response(200, "Succeed")
+    @api.response(400, "Bad Request")
     def post(self):
         if not api.payload or "name" not in api.payload:
-            return self.format_response(None, 400, "Bad Request")
+            return self.bad_request(None)
 
         name = api.payload.get("name")
         family_id = api.payload.get("family_id")
@@ -59,20 +58,21 @@ class PersonResource(BaseResource):
         )
         db.session.add(person)
         db.session.commit()
-        return self.format_response(marshal(person, Person.model), 200, "Succeed")
+        return self.succeed(marshal(person, Person.model))
 
     @api.expect(Person.model)
     @api.response(200, "Succeed")
+    @api.response(400, "Bad Request")
     @api.response(404, "Not found")
     def put(self):
         if not api.payload or "id" not in api.payload:
-            return self.format_response(None, 400, "Bad Request")
+            return self.bad_request(None)
 
         id = api.payload.get("id")
         api.logger.info(f"edit_person id={id}")
         person = Person.query.get(id)
         if not person:
-            return self.format_response(None, 404, "Not found")
+            return self.not_found(None)
 
         if "name" in api.payload:
             person.name = api.payload.get("name")
@@ -83,10 +83,11 @@ class PersonResource(BaseResource):
         if "join_person_id" in api.payload:
             person.join_person_id = api.payload.get("join_person_id")
         db.session.commit()
-        return self.format_response(marshal(person, Person.model), 200, "Succeed")
+        return self.succeed(marshal(person, Person.model))
 
     @api.param("id", "id of person to delete.")
     @api.response(200, "Succeed")
+    @api.response(400, "Bad Request")
     @api.response(404, "Not found")
     def delete(self):
         parser = reqparse.RequestParser()
@@ -95,13 +96,13 @@ class PersonResource(BaseResource):
 
         id = args["id"]
         if not id:
-            return self.format_response(None, 400, "Bad Request")
+            return self.bad_request(None)
 
         api.logger.info(f"delete_person id={id}")
         person = Person.query.get(id)
         if not person:
-            return self.format_response(None, 404, "Not found")
+            return self.not_found(None)
 
         db.session.delete(person)
         db.session.commit()
-        return self.format_response(marshal(person, Person.model), 200, "Succeed")
+        return self.succeed(marshal(person, Person.model))

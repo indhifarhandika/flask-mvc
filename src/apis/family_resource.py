@@ -24,9 +24,9 @@ class FamilyResource(BaseResource):
             api.logger.info(f"get_family id={id}")
             family = Family.query.get(id)
             if not family:
-                return self.format_response(None, 404, "Not found")
+                return self.not_found(None)
 
-            return self.format_response(marshal(family, Family.model), 200, "Succeed")
+            return self.succeed(marshal(family, Family.model))
 
         parser = reqparse.RequestParser()
         parser.add_argument("limit", type=int, default=10)
@@ -38,15 +38,14 @@ class FamilyResource(BaseResource):
         api.logger.info(f"get_families offset={offset} limit={limit}")
         families = Family.query.order_by(Family.id).limit(limit).offset(offset).all()
         total = Family.query.count()
-        return self.format_response(
-            {"data": marshal(families, Family.model), "total": total}, 200, "Succeed"
-        )
+        return self.succeed({"data": marshal(families, Family.model), "total": total})
 
     @api.expect(Family.model)
     @api.response(200, "Succeed")
+    @api.response(400, "Bad Request")
     def post(self):
         if not api.payload or "name" not in api.payload:
-            return self.format_response(None, 400, "Bad Request")
+            return self.bad_request(None)
 
         name = api.payload.get("name")
         chief_person_id = api.payload.get("chief_person_id")
@@ -54,30 +53,32 @@ class FamilyResource(BaseResource):
         family = Family(name=name, chief_person_id=chief_person_id)
         db.session.add(family)
         db.session.commit()
-        return self.format_response(marshal(family, Family.model), 200, "Succeed")
+        return self.succeed(marshal(family, Family.model))
 
     @api.expect(Family.model)
     @api.response(200, "Succeed")
+    @api.response(400, "Bad Request")
     @api.response(404, "Not found")
     def put(self):
         if not api.payload or "id" not in api.payload:
-            return self.format_response(None, 400, "Bad Request")
+            return self.bad_request(None)
 
         id = api.payload.get("id")
         api.logger.info(f"edit_family id={id}")
         family = Family.query.get(id)
         if not family:
-            return self.format_response(None, 404, "Not found")
+            return self.not_found(None)
 
         if "name" in api.payload:
             family.name = api.payload.get("name")
         if "chief_person_id" in api.payload:
             family.chief_person_id = api.payload.get("chief_person_id")
         db.session.commit()
-        return self.format_response(marshal(family, Family.model), 200, "Succeed")
+        return self.succeed(marshal(family, Family.model))
 
     @api.param("id", "id of family to delete.")
     @api.response(200, "Succeed")
+    @api.response(400, "Bad Request")
     @api.response(404, "Not found")
     def delete(self):
         parser = reqparse.RequestParser()
@@ -86,13 +87,13 @@ class FamilyResource(BaseResource):
 
         id = args["id"]
         if not id:
-            return self.format_response(None, 400, "Bad Request")
+            return self.bad_request(None)
 
         api.logger.info(f"delete_family id={id}")
         family = Family.query.get(id)
         if not family:
-            return self.format_response(None, 404, "Not found")
+            return self.not_found(None)
 
         db.session.delete(family)
         db.session.commit()
-        return self.format_response(marshal(family, Family.model), 200, "Succeed")
+        return self.succeed(marshal(family, Family.model))
