@@ -6,10 +6,10 @@ from src.models.mixin import Mixin
 
 
 class Person(Mixin, db.Model):  # type: ignore
-    name = db.Column(db.String(255), nullable=False, use_existing_column=True)
-    family_id = db.Column(db.Integer, nullable=True)
+    name = db.Column(db.String(255), nullable=False)
+    family_id = db.Column(db.Integer, db.ForeignKey("family.id"), nullable=True)
     gender = db.Column(db.Integer, nullable=False)
-    join_person_id = db.Column(db.Integer, nullable=True)
+    # manage_families = db.relationship("Family", backref="chief_person", lazy=True)
 
     model = api.model(
         "Person",
@@ -18,7 +18,15 @@ class Person(Mixin, db.Model):  # type: ignore
             "name": fields.String,
             "family_id": fields.Integer,
             "gender": fields.Integer,
-            "join_person_id": fields.Integer,
+            "family": fields.Nested(
+                api.model(
+                    "SimpleFamily",
+                    {
+                        "id": fields.Integer,
+                        "name": fields.String,
+                    },
+                )
+            ),
         },
     )
 

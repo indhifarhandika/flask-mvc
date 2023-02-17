@@ -6,7 +6,7 @@ from src.models.mixin import Mixin
 
 
 class RelationshipType(Mixin, db.Model):  # type: ignore
-    name = db.Column(db.String(255), nullable=False, use_existing_column=True)
+    name = db.Column(db.String(255), nullable=False)
 
     model = api.model(
         "RelationshipType",
