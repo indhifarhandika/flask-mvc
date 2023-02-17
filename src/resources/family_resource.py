@@ -1,15 +1,14 @@
-from src import api
 from flask import request
 from flask_restx import reqparse, marshal
 
 
-from src.apis.base_resource import BaseResource
+from src.resources import api
+from src.resources.base_resource import BaseResource
 from src.models.family import Family
 from src.view_models.simple_family import simple_family_model
 from src.view_models.family import family_model
 
 
-@api.route("/api/family")
 class FamilyResource(BaseResource):
     @api.param("id", "If set, get only 1 family. If not set, get many families.")
     @api.param("limit", "max number of families.")

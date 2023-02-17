@@ -1,15 +1,14 @@
-from src import api
 from flask import request
 from flask_restx import reqparse, marshal
 
 
-from src.apis.base_resource import BaseResource
+from src.resources import api
+from src.resources.base_resource import BaseResource
 from src.models.person import Person
 from src.view_models.simple_person import simple_person_model
 from src.view_models.person import person_model
 
 
-@api.route("/api/person_family")
 class PersonFamilyResource(BaseResource):
     @api.expect(simple_person_model)
     @api.response(200, "Succeed")

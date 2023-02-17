@@ -1,5 +1,4 @@
-from src import db
-from src.models.mixin import Mixin
+from src.models.mixin import Mixin, db
 
 
 class Person(Mixin, db.Model):  # type: ignore

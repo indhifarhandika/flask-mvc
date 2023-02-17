@@ -1,7 +1,7 @@
 from sqlalchemy import func
 
 
-from src import db
+from src.models import db
 
 
 class Mixin(object):

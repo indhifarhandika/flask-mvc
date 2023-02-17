@@ -1,5 +1,4 @@
-from src import db
-from src.models.mixin import Mixin
+from src.models.mixin import Mixin, db
 
 
 class RelationshipType(Mixin, db.Model):  # type: ignore

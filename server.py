@@ -4,7 +4,9 @@ __author__ = "indhifarhandika"
 __version__ = "1"
 __email__ = "indhifarhandika@gmail.com"
 
-from src import app
+from src import create_app
 
 if __name__ == "__main__":
-    app.run(host="localhost", port=8000, debug=True)
+    app = create_app()
+
+    app.run(host="localhost", debug=True)

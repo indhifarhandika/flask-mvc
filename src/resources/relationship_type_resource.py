@@ -1,14 +1,13 @@
-from src import api
 from flask import request
 from flask_restx import reqparse, marshal
 
 
-from src.apis.base_resource import BaseResource
+from src.resources import api
+from src.resources.base_resource import BaseResource
 from src.models.relationship_type import RelationshipType
 from src.view_models.relationship_type import relationship_type_model
 
 
-@api.route("/api/relationship_type")
 class RelationshipTypeResource(BaseResource):
     @api.param(
         "id",

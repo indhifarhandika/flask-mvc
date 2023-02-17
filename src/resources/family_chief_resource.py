@@ -1,15 +1,14 @@
-from src import api
 from flask import request
 from flask_restx import reqparse, marshal
 
 
-from src.apis.base_resource import BaseResource
+from src.resources import api
+from src.resources.base_resource import BaseResource
 from src.models.family import Family
 from src.view_models.simple_family import simple_family_model
 from src.view_models.family import family_model
 
 
-@api.route("/api/family_chief")
 class FamilyChiefResource(BaseResource):
     @api.expect(simple_family_model)
     @api.response(200, "Succeed")

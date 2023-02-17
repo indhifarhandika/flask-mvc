@@ -1,7 +1,7 @@
 from flask_restx import fields
 
 
-from src import api
+from src.resources import api
 from src.view_models.simple_person import simple_person_model
 
 family_model = api.model(

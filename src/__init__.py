@@ -1,16 +1,19 @@
-import logging
-from flask import Flask
-from flask_restx import Api
-from flask_sqlalchemy import SQLAlchemy
+def create_app():
+    import logging
+    from flask import Flask
+    from src.models import db
+    from src.resources import api, add_resources
 
-logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.INFO)
 
-app = Flask(__name__)
+    app = Flask(__name__)
+    app.config[
+        "SQLALCHEMY_DATABASE_URI"
+    ] = "mysql+pymysql://root:root@localhost/genealogy"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:root@localhost/genealogy"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    db.init_app(app)
+    api.init_app(app)
+    add_resources()
 
-api = Api(app)
-db = SQLAlchemy(app)
-
-from src.apis import *
+    return app

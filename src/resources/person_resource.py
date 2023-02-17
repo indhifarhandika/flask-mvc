@@ -1,15 +1,14 @@
-from src import api
 from flask import request
 from flask_restx import reqparse, marshal
 
 
-from src.apis.base_resource import BaseResource
+from src.resources import api
+from src.resources.base_resource import BaseResource
 from src.models.person import Person
 from src.view_models.simple_person import simple_person_model
 from src.view_models.person import person_model
 
 
-@api.route("/api/person")
 class PersonResource(BaseResource):
     @api.param("id", "If set, get only 1 person. If not set, get many persons.")
     @api.param("limit", "max number of persons.")
