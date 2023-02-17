@@ -40,7 +40,7 @@ docker-compose -f docker/mysql.yml down
 ## Start server
 
 ```
-python server.py
+flask --app src run
 ```
 
 ## Contributors
