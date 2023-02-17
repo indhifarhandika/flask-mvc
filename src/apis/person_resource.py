@@ -5,6 +5,7 @@ from flask_restx import reqparse, marshal
 
 from src.apis.base_resource import BaseResource
 from src.models.person import Person
+from src.view_models.simple_person import simple_person_model
 from src.view_models.person import person_model
 
 
@@ -41,7 +42,7 @@ class PersonResource(BaseResource):
         total = Person.query.count()
         return self.succeed({"data": marshal(persons, person_model), "total": total})
 
-    @api.expect(person_model)
+    @api.expect(simple_person_model)
     @api.response(200, "Succeed")
     @api.response(400, "Bad Request")
     def post(self):
@@ -61,7 +62,7 @@ class PersonResource(BaseResource):
         Person.session.commit()
         return self.succeed(marshal(person, person_model))
 
-    @api.expect(person_model)
+    @api.expect(simple_person_model)
     @api.response(200, "Succeed")
     @api.response(400, "Bad Request")
     @api.response(404, "Not found")

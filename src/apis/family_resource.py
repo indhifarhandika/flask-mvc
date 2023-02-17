@@ -5,6 +5,7 @@ from flask_restx import reqparse, marshal
 
 from src.apis.base_resource import BaseResource
 from src.models.family import Family
+from src.view_models.simple_family import simple_family_model
 from src.view_models.family import family_model
 
 
@@ -41,7 +42,7 @@ class FamilyResource(BaseResource):
         total = Family.query.count()
         return self.succeed({"data": marshal(families, family_model), "total": total})
 
-    @api.expect(family_model)
+    @api.expect(simple_family_model)
     @api.response(200, "Succeed")
     @api.response(400, "Bad Request")
     def post(self):
@@ -56,7 +57,7 @@ class FamilyResource(BaseResource):
         Family.session.commit()
         return self.succeed(marshal(family, family_model))
 
-    @api.expect(family_model)
+    @api.expect(simple_family_model)
     @api.response(200, "Succeed")
     @api.response(400, "Bad Request")
     @api.response(404, "Not found")

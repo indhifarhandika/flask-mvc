@@ -9,5 +9,6 @@ simple_person_model = api.model(
         "id": fields.Integer,
         "name": fields.String,
         "gender": fields.Integer,
+        "family_id": fields.Integer,
     },
 )

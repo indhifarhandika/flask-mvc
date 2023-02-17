@@ -8,5 +8,6 @@ simple_family_model = api.model(
     {
         "id": fields.Integer,
         "name": fields.String,
+        "chief_person_id": fields.Integer,
     },
 )
