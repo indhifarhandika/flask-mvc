@@ -13,7 +13,8 @@ docker-compose 1.29.2
 ```
 Flask
 Flask-SQLAlchemy -- ORM
-Flask-restx -- Swagger
+Flask-restx -- API & Swagger
+pytest -- Testing
 ```
 
 ## Using virtual environment
@@ -41,6 +42,12 @@ docker-compose -f docker/mysql.yml down
 
 ```
 flask --app src run
+```
+
+## Test
+
+```
+pytest tests\resources\family_resource.py
 ```
 
 ## Contributors
